@@ -46,7 +46,7 @@ def iniciar_sistema_rag():
 
     # 2. Construye la ruta absoluta hacia chroma_db
     ruta_db = os.path.join(directorio_actual, "chroma_db")
-    vectorstore = Chroma(persist_directory="ruta_db", embedding_function=embeddings)
+    vectorstore = Chroma(persist_directory=ruta_db, embedding_function=embeddings)
     retriever = vectorstore.as_retriever(search_kwargs={"k": 6}) # Trae los 3 fragmentos más relevantes
     
     # 3. Configurar el LLM (el que redactará la respuesta)
