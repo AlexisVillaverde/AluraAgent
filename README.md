@@ -27,6 +27,11 @@ El agente está construido sobre una arquitectura **RAG (Retrieval-Augmented Gen
 * **Infraestructura y Despliegue:** Oracle Cloud Infrastructure (OCI) / Streamlit Community Cloud.
 
 ---
+🌐 Demo Interactiva en la Nube
+Accede a la aplicación desde tu navegador web:
+👉 Probar Demo en Vivo en Streamlit Cloud(https://aluraagent-ccusak6w2xsx45zyxyr2kp.streamlit.app/) 🚀
+---
+
 
 ## 🚀 Instrucciones para ejecutar el proyecto
 
@@ -34,7 +39,7 @@ Sigue estos pasos para clonar y ejecutar el agente de IA en tu máquina local:
 
 **1. Clonar el repositorio:**
 ```bash
-git clone [https://github.com/tu-usuario/tu-repositorio.git](https://github.com/tu-usuario/tu-repositorio.git)
+git clone 
 cd tu-repositorio
 
 **2. Crear y activar el entorno virtual:**
