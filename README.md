@@ -14,6 +14,36 @@ El agente está construido sobre una arquitectura **RAG (Retrieval-Augmented Gen
    Los documentos corporativos en formato PDF son procesados utilizando `PyPDFDirectoryLoader`. El texto extraído se divide en fragmentos (chunks) utilizando `RecursiveCharacterTextSplitter` para mantener el contexto semántico. Posteriormente, estos fragmentos se transforman en representaciones vectoriales matemáticas y se almacenan localmente en una base de datos vectorial para consultas rápidas.
 2. **Motor de Recuperación y Generación (Inferencia):** 
    Cuando un usuario realiza una consulta a través de la interfaz web, el sistema vectoriza la pregunta, busca los 6 fragmentos más relevantes (Top-K) en la base de datos vectorial, y los inyecta como contexto en un modelo de lenguaje de gran escala (LLM). El LLM sintetiza la información recuperada y redacta una respuesta natural, veraz y fundamentada estrictamente en la documentación.
+```mermaid
+   graph TD
+    %% Estilos de los nodos
+    classDef database fill:#f9f6f0,stroke:#333,stroke-width:2px;
+    classDef user fill:#e1f5fe,stroke:#0288d1,stroke-width:2px;
+    classDef llm fill:#e8f5e9,stroke:#388e3c,stroke-width:2px;
+    classDef ui fill:#fff3e0,stroke:#e65100,stroke-width:2px;
+
+    subgraph Fase 1: Ingesta de Documentos
+        A[PDFs de BimBam Buy] -->|PyPDF Loader| B(División de Texto)
+        B -->|RecursiveCharacterTextSplitter| C(Generación de Vectores)
+        C -->|HuggingFace Embeddings<br>paraphrase-multilingual| D[(ChromaDB)]
+        class D database;
+    end
+
+    subgraph Fase 2: Interfaz y Motor RAG
+        U((Colaborador)) -->|Pregunta| UI[Streamlit App]
+        UI -->|Convierte a vector| C2(HuggingFace Embeddings)
+        C2 -->|Busca similitud| D
+        D -.->|Devuelve Top-6 Fragmentos| RAG[LangChain<br>Retrieval Chain]
+        UI -->|Pregunta Original| RAG
+        RAG -->|Contexto + Pregunta| LLM[Cohere API<br>command-r-plus]
+        LLM -->|Respuesta Generada| UI
+        
+        class U user;
+        class LLM llm;
+        class UI ui;
+    end
+    ```
+
 
 ---
 
@@ -85,3 +115,12 @@ El agente está capacitado para contestar consultas como las siguientes, basánd
 "¿Cuáles son los costos y tiempos de envío estándar para el interior del país?"
 
 "¿Qué métodos de pago son aceptados actualmente en la plataforma?"
+
+💬 Ejemplos de respuestas generadas por el agente
+Usuario: ¿Cuál es el tiempo en días para un retracto o reembolso?
+
+Agente BimBam Buy: De acuerdo con la Política de Reembolsos, el cliente puede solicitar una devolución por retracto de compra dentro de los 10 días corridos posteriores a la recepción del pedido, siempre y cuando el producto cumpla con los requisitos de elegibilidad documentados. Por otro lado, si el producto llegó dañado, el caso debe reportarse dentro de las primeras 48 horas para aplicar a un reemplazo rápido.
+
+Usuario: ¿Qué pasa si el cliente pierde su recibo de compra, aún aplica la garantía?
+
+Agente BimBam Buy: No tengo esa información exacta en los documentos actuales. Los manuales especifican los tiempos y condiciones de los daños, pero no detallan explícitamente el procedimiento a seguir en caso de extravío del comprobante o recibo de compra. Te recomiendo escalar esta consulta directamente con el supervisor del área de Soporte al Cliente.
