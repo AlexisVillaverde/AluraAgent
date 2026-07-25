@@ -14,7 +14,8 @@ El agente está construido sobre una arquitectura **RAG (Retrieval-Augmented Gen
    Los documentos corporativos en formato PDF son procesados utilizando `PyPDFDirectoryLoader`. El texto extraído se divide en fragmentos (chunks) utilizando `RecursiveCharacterTextSplitter` para mantener el contexto semántico. Posteriormente, estos fragmentos se transforman en representaciones vectoriales matemáticas y se almacenan localmente en una base de datos vectorial para consultas rápidas.
 2. **Motor de Recuperación y Generación (Inferencia):** 
    Cuando un usuario realiza una consulta a través de la interfaz web, el sistema vectoriza la pregunta, busca los 6 fragmentos más relevantes (Top-K) en la base de datos vectorial, y los inyecta como contexto en un modelo de lenguaje de gran escala (LLM). El LLM sintetiza la información recuperada y redacta una respuesta natural, veraz y fundamentada estrictamente en la documentación.
-```mermaid
+
+   ```mermaid
    graph TD
     %% Estilos de los nodos
     classDef database fill:#f9f6f0,stroke:#333,stroke-width:2px;
