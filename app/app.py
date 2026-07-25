@@ -42,7 +42,11 @@ def iniciar_sistema_rag():
     embeddings = HuggingFaceEmbeddings(model_name="paraphrase-multilingual-MiniLM-L12-v2")
     
     # 2. Conectar a la base de datos vectorial existente
-    vectorstore = Chroma(persist_directory="chroma_db", embedding_function=embeddings)
+    directorio_actual = os.path.dirname(os.path.abspath(__file__))
+
+    # 2. Construye la ruta absoluta hacia chroma_db
+    ruta_db = os.path.join(directorio_actual, "chroma_db")
+    vectorstore = Chroma(persist_directory="ruta_db", embedding_function=embeddings)
     retriever = vectorstore.as_retriever(search_kwargs={"k": 6}) # Trae los 3 fragmentos más relevantes
     
     # 3. Configurar el LLM (el que redactará la respuesta)
