@@ -61,6 +61,11 @@ El agente está construido sobre una arquitectura **RAG (Retrieval-Augmented Gen
 🌐 Demo Interactiva en la Nube
 Accede a la aplicación desde tu navegador web:
 👉 Probar Demo en Vivo en Streamlit Cloud(https://aluraagent-ccusak6w2xsx45zyxyr2kp.streamlit.app/) 🚀
+
+
+https://github.com/user-attachments/assets/5a322e29-020f-4e37-8ffc-3685ba066f7d
+
+
 ---
 
 
